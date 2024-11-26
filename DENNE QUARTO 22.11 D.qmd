@@ -1,0 +1,430 @@
+---
+title: "Term Paper"
+author: "Falk Aksel Falkum"
+date: "`r Sys.Date()`"
+format:
+  html:
+    toc: true         
+    toc-depth: 3      
+    number-sections: true  
+    theme: flatly     
+    code-fold: true   
+editor: visual
+---
+
+## Innledning
+
+Denne semesteroppgaven skal undersøke den miljømessige Kuznets-kurven (EKC) gjennom å analysere sammenhengen mellom økonomisk vekst og miljøpåvirkning, med særlig fokus på CO2 utslipp. Selve analysen foregår i R-Studio. Det blir brukt ulike metoder for å analysere valideten til analysen. Oppgaven tester ulike scenarioer for å se om sammenhengen mellom økonomisk vekst og miljøpåvirkning er U-formet eller ikke.
+
+Scriptet består av en databehandling, og variabel transformasjon, før analysen blir utført iform av visualisering (plotts) og ren modellering iform av ulike regresjonsanalyser. Land av ulike inntektsnivåer vil bli testet opp mot hverandre. Data ble i utgangspunktet hentet fra World Development Indicators (WDI) og variabelen (EN.ATM.CO2E.KT) for Co2 utslipp. I oktober i år kuttet WDI alle variabler for Co2 utslipp. Jeg har derfor inkludert Our World in Data og endret den planlagte koden, og dermed slått sammen de to datasettene til ett.
+
+Oppgaven har fem deler. Etter denne innledningen presenteres det teoretiske grunnlaget i avsnitt to. Etter det blir en gjennomgang av metode og kode i avsnitt tre. Så er det en diskusjonsdel i avsnitt 4 der resultatene av koden blir diskutert. I avsnitt fem i konsklusjonsdelen vil oppgaven konkludere resultatene og komme med en vurdering av hvorvidt det finnes bevis for at sammenhengen mellom økonomisk vekst og Co2 utslipp er omvendt U-kurvet eller ikke.
+
+## Teori
+
+Denne oppgaven skal undersøke om forholdet mellom økonomisk vekst og utslipp er omvendt U-formet, også kjent som Kuznets-kurven. Denne teorien ble introdusert av økonomen Simon Kuznets på 50-tallet. Han beskrev en hypotetisk sammenheng mellom økonomisk vekst og økonomisk ulikhet. Ifølge hypotesen følger ulikheten en omvendt U-formet kurve, der ulikhet øker i de tidlige stadiene før den etter hvert blir avtakende og dermed danner er U-formet kurve. Forklaringen til det omvendte forholdet blir forklart ved at ved økonomisk vekst, så må økonomien modnes, slik at det over tid blir et skifte i fokus, slik at trenden snur. Faktorer som industrialisering, urbanisering osv. er med på å øke invisteringene som over tid jevner ut ulikhetene (Delgado, 2023).
+
+I senere tid har teorien blitt tilpasset til miljøøkonomi, og blir brukt til å forklare sammenhengene mellom økonomisk vekst og miljøpåvirkning. I denne sammenhengen blir kurven omtalt som Enviromental Kuznets Curve (EKC). Denne sammenhengen er en hypotese om at forholdet mellom økonomisk vekst og miljøpåvirkning ser ut som en omvendt U-form. I denne sammenhengen vil hypotesen altså si at dersom man setter opp BNP per innbygger opp mot Co2 utslipp, så vil forholde bli seende ut som om opp ned U (ScienceDirect, n.d).
+
+[![Illustrasjon av Kuznets-kurven](bilde.png){fig-alt="Illustrasjon av Kuznets-kurven som viser en omvendt U-formet sammenheng mellom inntekt per capita og miljøforringelse." fig-align="center"}](https://doi.org/10.48550/arXiv.2105.11756)
+
+Hypotesen bygger på en antakelse om at når det oppstår en økonomisk vekst så vil utviklingen til det gitte landet føre til en økning av utslipp ved en økende industrialisering. Ved økt produksjon vil utslippene øke til et punkt, hvor det etter hvert vil avta og danne U-formen. Begrunnelsen for dette er da at etter hvert som et land har fått tilstrekkelig med midler, så vil det kunne begynne å produsere på renere og mer miljøvennlige måter som dermed fører til avtakende utslipp. Samt, politiske ønsker, reguleringer, utslipp-skatter som og vil presse ned mengden utslipp (Satici og Cakir, 2021)
+
+Kuznets-kurven bruker noen av de samme forutsetninger som andre vekstmodeller som f.eks. Solow-modellen. Teknologisk utvikling, politikk, kapital og befolkning følger den økonomiske veksten. Denne oppgaven kommer ikke til å gå noe dypere inn på modellen annet enn å teste om det finnes bevis for kurven, og om teorien er gjeldene for denne oppgaven og datasettet som blir brukt. .
+
+## 3. Metode og gjennomgang av kode
+
+Metoden for denne oppgaven vil hovedsakelig være ulike regresjonsanalyser og visualisering av data. Dette går oppgaven nøyere gjennom under selve gjennomgangen av koden.
+
+### Laster inn nødvendige pakker
+
+```{r}
+library(WDI)
+library(tidyverse)
+library(countrycode)
+library(corrplot)
+library(ggpubr)
+library(stringr)
+library(vtable)
+library(sjPlot)
+library(sjmisc)
+library(sjlabelled)
+library(jtools)
+library(knitr)
+library(car)
+library(tinytex)
+
+```
+
+Til denne oppgaven har jeg brukt flere ulike pakker. Den første pakken er WDI (World Development Indicators), som fungerer som hoveddatakilde, og relevante variabler blir hentet herfra. Den neste pakken er tidyverse, som gir tilgang til sentrale funksjoner brukt i koden og inneholder pakker som dplyr og ggplot2, som blir brukt til datahåndtering, filtrering og visualisering av data. Pakken countrycode brukes for å konvertere ISO-landkoder til landsnavn, noe som forenkler sammenkoblingen mellom WDI og Our World in Data.
+
+Pakken corrplot brukes til å visualisere korrelasjonsmatriser, noe som gir innsikt i hvorvidt variablene forklarer hverandre – spesielt nyttig for å vurdere multikollinearitet. ggpubr forbedrer visualiseringene med ggplot2, og gjør det enklere å tilpasse plot som viser sammenhengen mellom BNP og CO₂-utslipp. stringr brukes til strenghåndtering, nyttig ved transformasjoner i datasettet. vtable brukes til å lage tabeller og gir mulighet til å vise plot i R’s Viewer-vindu.
+
+Pakkene sjPlot, sjmisc og sjlabelled brukes for visualisering av regresjonsanalysene etter egen preferanse, og jtools benyttes til databehandling i regresjonsanalysene. knitr brukes til å generere PDF- eller HTML-filer fra koden i RMarkdown. Til slutt brukes car for å få tilgang til Variance Inflation Factor (VIF()), som tester regresjonene for multikollinearitet. Oppsummert gjør disse pakkene det mulig å hente, rense, analysere og presentere de aktuelle dataene på en effektiv måte. Pakken tinytex blir brukt til å lage en pdf ut av filen.
+
+### Laster ned WDI-data (uten CO2)
+
+```{r}
+data_wdi <- WDI(indicator = c('NY.GDP.PCAP.CD', 
+                              'SP.POP.TOTL', 'EG.USE.PCAP.KG.OE', 
+                              'SP.URB.TOTL.IN.ZS', 'EG.FEC.RNEW.ZS',
+                              'NV.IND.TOTL.ZS', 'NV.AGR.TOTL.ZS', 
+                              'EG.EGY.PRIM.PP.KD', 'NE.TRD.GNFS.ZS', 
+                              'EG.USE.COMM.FO.ZS', 'GC.XPN.TOTL.GD.ZS',
+                              'GB.XPD.RSDV.GD.ZS'),
+                country = "all", start = 2000, end = 2020)
+```
+
+### Variabeloversikt: 
+
+**NY.GDP.PCAP.CD**: Bruttonasjonalprodukt (BNP) per innbygger, målt i løpende amerikanske dollar.
+
+**SP.POP.TOTL**: Totalt folketall i landet.
+
+**EG.USE.PCAP.KG.OE**: Energibruk per innbygger, målt i kilogram oljeekvivalenter.
+
+**SP.URB.TOTL.IN.ZS**: Andelen av befolkningen som bor i urbane områder, målt i prosent.
+
+**EG.FEC.RNEW.ZS**: Fornybar energi som andel av total energiforbruk, målt i prosent.
+
+**NV.IND.TOTL.ZS**: Industriproduksjonens andel av BNP, målt i prosent.
+
+**NV.AGR.TOTL.ZS**: Landbrukssektorens andel av BNP, målt i prosent.
+
+**EG.EGY.PRIM.PP.KD**: Primær energiproduktivitet, målt i kjøpekraftsjusterte dollar per kg oljeekvivalent.
+
+**NE.TRD.GNFS.ZS**: Handelsbalanse (eksport og import av varer og tjenester) som andel av BNP, målt i prosent.
+
+**EG.USE.COMM.FO.ZS**: Andelen av energiforbruk fra fossilt brensel, målt i prosent.
+
+**GC.XPN.TOTL.GD.ZS**: Offentlige utgifter som andel av BNP, målt i prosent.
+
+**GB.XPD.RSDV.GD.ZS**: Utgifter til forskning og utvikling som andel av BNP, målt i prosent.
+
+Jeg valgte å filtrere bort data som ikke var i perioden 2000-2020, samt beholde alle land.
+
+### Laster ned CO2-data fra Our World in Data
+
+```{r}
+url <- "https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv"
+co2_data <- read_csv(url)
+```
+
+Etter at variabelene fra WDI er hentet ut, så henter jeg ut den siste variabelen. Jeg bruker read_csv funksjonen til å lese data filen, som er en csv fil hentet fra *Our World in Data* (OWID), en åpen kilde som publiserer ulike typer data for offentlig bruk.
+
+### Filtrer og velger relevante variabler fra CO2-dataene
+
+```{r}
+co2_data <- co2_data %>%
+  filter(year >= 2000 & year <= 2020) %>%
+  select(country = iso_code, year, co2) %>%
+  mutate(country = countrycode(country, "iso3c", "country.name"))
+
+# Slår sammen WDI-data og CO2-data basert på land og år
+data_combined <- left_join(data_wdi, co2_data, by = c("country", "year"))
+```
+
+I koden hentes variabelen co2 fra datasettet hentet fra Our World in Data sin åpne kilde for karbondioksidutslipp. Dataen inneholder en rekke ulike variabler og informasjon, men jeg henter ut kun Co2 variabelen, men jeg inkluderer også her tidsperioden 2000-2020. I tilegg beholdes landkode country som representerer landets navn. Ved bruk av countrycode-funksjonen så endres det fra en ISO3-kode (en måtte å navngi på) til landets navn, for bedre lesbarhet. Variabelen Co2 som blir hentet ut, viser hvert land for hvert år, hvor mange tonn målt i millioner som blir sluppet ut hvert år. I den andre kodedelen, så blir begge datasettene slått sammen til et ved hjelp av left_join funksjonen og det blir sortert etter år og land.
+
+### Log-transformering
+
+```{r}
+data_combined <- data_combined %>%
+  mutate(
+    log_CO2_emissions = log(co2),
+    log_GDP_per_capita = log(NY.GDP.PCAP.CD),
+    log_population = log(SP.POP.TOTL),
+    log_energy_use = log(EG.USE.PCAP.KG.OE),
+    log_industry = log(NV.IND.TOTL.ZS + 1),
+    log_agriculture = log(NV.AGR.TOTL.ZS + 1),
+    log_energy_intensity = log(EG.EGY.PRIM.PP.KD),
+    log_trade = log(NE.TRD.GNFS.ZS),
+    log_fossil_fuel = log(EG.USE.COMM.FO.ZS + 1),
+    log_government_exp = log(GC.XPN.TOTL.GD.ZS),
+    log_RnD_exp = log(GB.XPD.RSDV.GD.ZS + 1)
+  ) %>%
+  drop_na(log_CO2_emissions, log_GDP_per_capita, log_population, log_energy_use, 
+          SP.URB.TOTL.IN.ZS, EG.FEC.RNEW.ZS, log_industry, log_agriculture, 
+          log_energy_intensity, log_trade, log_fossil_fuel, log_government_exp, log_RnD_exp)
+```
+
+I denne kodedelen har jeg utført en log-transformasjon på variablene, på det nye datasettet som nå heter data_combinded. Dette har blitt utført for å normalisere fordelingen og håndtere skjevheter, særlig for variabler med store variasjoner. De nye variablene opprettes ved å ta logaritmen av eksisterende variabler som, co2-utslipp eller BNP per innbygger. For variabler som inneholder nullverdier (NA’s) legges det til en før log endringen for å unngå feil. Til slutt fjerner drop_na funksjonene de radene med manglende verdier/data i de log endrede variablene.
+
+### Tabell med statistikk for variabler
+
+```{r}
+TABLE_clean <- data_combined %>%
+  select(log_CO2_emissions, log_GDP_per_capita, log_population, log_energy_use, 
+         log_industry, log_agriculture, log_energy_intensity, log_trade, 
+         log_fossil_fuel, log_government_exp, log_RnD_exp) %>%
+  na.omit()
+
+vtable(TABLE_clean)
+```
+
+I denne kodedelen starter jeg med å endre navnet på dataframen fra data_combined til TABLE_clean, dette gjør jeg for å holde en best mulig oversikt over hvilke data man jobber med nedover i koden. Så velger jeg ut alle log variablene, og lager en tabell av vtable() for å kunne se at alle variablene forholder seg numeriske, og få et perspektiv på variasjonen de ulike variablene har.
+
+### Tabell med deskriptiv statistikk for de log-transformerte variablene
+
+```{r}
+descriptive_stats <- data_combined %>%
+  select(log_CO2_emissions, log_GDP_per_capita, log_population, log_energy_use, 
+         log_industry, log_agriculture, log_energy_intensity, log_trade, 
+         log_fossil_fuel, log_government_exp, log_RnD_exp) %>%
+  summarise_all(list(
+    Min = ~ min(. , na.rm = TRUE),
+    Max = ~ max(. , na.rm = TRUE),
+    Mean = ~ mean(. , na.rm = TRUE),
+    SD = ~ sd(. , na.rm = TRUE)
+  ))
+
+print(descriptive_stats)
+```
+
+Videre ønsker jeg å finne ut mer om variablene, så jeg lager en ny tabell som lager et sammendrag av variablene og visualiserer: minimums verdi, maksimumsverdi, standard avvik og gjennomsnittsverdi.
+
+### Kuznets-plott
+
+```{r}
+ggplot(data_combined, aes(x = log_GDP_per_capita, y = log_CO2_emissions)) +
+  geom_point(alpha = 0.6, color = "steelblue", size = 2) +   
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), color = "darkred", fill = "lightcoral", alpha = 0.2) +  
+  geom_line(aes(group = 1), color = "gray60", linetype = "dashed") +  
+  labs(
+    x = "Log BNP per innbygger",
+    y = "Log CO2-utslipp",
+    title = "Sammenheng mellom BNP per innbygger og CO2-utslipp",
+    subtitle = "Analyse av Kuznets Curve"
+  ) +
+  theme_classic() +
+  theme(
+    plot.title = element_text(size = 16, face = "bold"),
+    plot.subtitle = element_text(size = 12, color = "gray50"),
+    axis.title = element_text(size = 12),
+    axis.text = element_text(size = 10)
+  )
+```
+
+Videre ønsker jeg å undersøke om forholdet mellom BNP og Co2 er U-formet som Kuznets teorien sier. Jeg bruker ggplot fra tidyversepakken til å visualisere plottet. Jeg setter Log Co2-utslipp ved y-aksen, og Log BNP per innbygger på x-aksen. De lyseblå punktene illustrerer hvert sitt land, ved bruk av geom_point. Den røde linjen i plottet illustrerer trenden i plottet. Her er alle land inkludert og man kan tydelig se at det er fravær av den U-formete trenden. Men det er en tydelig stigende trend. Altså når BNP øker, så øker og utslipp.
+
+### Første regresjon: 
+
+```{r}
+model1 <- lm(log_CO2_emissions ~ log_GDP_per_capita+log_population, data = data_combined)
+tab_model(model1)
+vif(model1)
+```
+
+Ettersom at det ikke var tegn til en U-formet trend, så kjører jeg en regresjonsanalyse for å teste data. Jeg setter opp log av Co2 som den avhengige variabelen, og bruker en standard lineær regresjon (lm) til å sjekke. Så bruker jeg tab_model(model) for å få en god visualisering av modellen, samt sjekker den for multikolinaritet ved bruk av vif() funksjonen. Alle variablene er godt innenfor med tanke på multikolinaritet, og alle variabler er veldig statistisk signifikante. Co2 har et estimat på 0,55 som støtter teorien om økningen av utslipp ved økonomisk vekst (BNP per capita) som har estimat 1.01. Men, det er ingen tegn til at det går ned igjen, som nok skyldes en for simpel modell.
+
+### Implimitering av variabler
+
+```{r}
+model <- lm(log_CO2_emissions ~ log_GDP_per_capita + log_population + log_energy_use + 
+              log_industry + log_agriculture + log_energy_intensity + log_trade +
+              log_fossil_fuel + log_government_exp + log_RnD_exp, data = data_combined)
+
+tab_model(model)
+vif(model)
+```
+
+Jeg gjør det samme som i modellen ovenfor, bare at jeg når har inkludert flere variabler for å få en mer omfattende model. Alle variabler utenom industri, landbruk og energiforbruk forholder seg statistisk signifikante. Jeg får veldig høy R\^2, som vil sa at denne regresjonen kan forklare for ca. 98 % av variansen i dataene, noe som kan være kunstig høyt. Dette kan skyldes at dataene er filtrert og sammenslått, noe som kan gi en tettere modelltilpasning enn det som ville vært realistisk med ubehandlede data.
+
+Av de signifikante variablene ser vi at både BNP per innbygger og handel har negative koeffisienter, noe som antyder en omvendt sammenheng med CO₂-utslipp. På den andre siden bidrar både totalt energiforbruk per capita og andelen fossilt brensel positivt til CO₂-utslippene. Resultatene viser også at folketall og offentlige utgifter per BNP er sterke positive prediktorer for CO₂-utslipp, mens utgifter til forskning og utvikling har en liten negativ effekt.
+
+### Kvadratisk modell
+
+```{r}
+model_kuznets <- lm(log_CO2_emissions ~ log_GDP_per_capita + I(log_GDP_per_capita^2), data = data_combined)
+tab_model(model_kuznets)
+vif(model_kuznets)
+```
+
+Ettersom at Kuznets-kurven gir en forventning om en omvendt U-formet kurve så er det interessant å teste ut de ikke lineære sammenhengene. Derfor kjører jeg en regresjonsanalyse med implementering av en kvadrert versjon av BNP variabelen. Ved å inkludere log_gdp_percapita sammen med log_gdp_per_capita\^2 i modellen kan jeg fange opp en potensiell kurvelineær effekt, som kunne indikert at CO₂-utslippene først øker med BNP før de eventuelt reduseres etter et visst punkt.
+
+Resultatet av denne modellen viser at ingen av variablene er statistisk signifikante, noe som antyder at det ikke er noen tydelig kurvelineær sammenheng i denne modellen. R²-verdien er også lav, som betyr at modellen forklarer svært lite av variasjonen i CO₂-utslippene. Dette indikerer at Kuznets-kurven kanskje ikke er et egnet rammeverk for å beskrive sammenhengen mellom økonomisk utvikling og CO₂-utslipp i dette datasettet, og at andre faktorer kan spille en større rolle. Sett bort ifra signifikans, så har interaksjonsleddet til BNP et negativt estimat som kan antyde at teorien stemmer.
+
+### Nytt Kuznets plott
+
+```{r}
+plot_kuznets <- function(data, title) {
+  ggplot(data, aes(x = log_GDP_per_capita, y = log_CO2_emissions)) +
+    geom_point(alpha = 0.6, color = "steelblue", size = 2) +
+    geom_smooth(method = "lm", formula = y ~ poly(x, 2), color = "darkred", fill = "lightcoral", alpha = 0.2) +
+    geom_line(aes(y = predicted_CO2), color = "blue", linetype = "dashed", linewidth = 1) +
+    labs(
+      x = "Log BNP per capita",
+      y = "Log CO2-utslipp",
+      title = title,
+      subtitle = "Relationship between economic development and CO2 emissions"
+    ) +
+    theme_classic()
+}
+
+# Legg til predikerte verdier
+data_combined <- data_combined %>%
+  arrange(log_GDP_per_capita) %>%
+  mutate(predicted_CO2 = predict(model_kuznets, newdata = data_combined))
+
+# Generer Kuznets-plott
+plot_kuznets(data_combined, "Environmental Kuznets Curve")
+
+```
+
+For å videre teste U-form sammenhengen har jeg brukt en linær og en kvadrert versjon av BNP. Kvadrateringen skal muligjøre modelleringen i en kurvlineær sammenheng. I koden så blir CO2 utslipp predikert ved funksjonen predict(), funksjonen blir og lagt til i datasettet som ny variabel: predicted_co2. Visualiseringen av resultatene til plotter de faktiske verdiene for CO₂-utslipp, har en trendlinje basert på dataene, og modellenes predikerte verdier. Denne metoden er valgt fordi Kuznets-kurven spesifikt handler om ikke-lineære relasjoner, og det er viktig å teste for disse ved hjelp av kvadrerte termer i modellen.
+
+Inkluderingen av kvadrert BNP er en standardmetode for å teste Kuznets-hypotesen. Hvis EKC-hypotesen hadde blitt bekreftet ville den kvadrerte termen indikert at utslippene topper seg ved et visst BNP-nivå og deretter avtar. I dette datasettet ser vi at sammenhengen i hovedsak er lineær. Dette kan skyldes begrensninger i datasettet eller at andre faktorer enn BNP, som politikk eller teknologi, spiller en større rolle i å forklare CO₂-utslipp.
+
+### Testing av Nordiske land
+
+```{r}
+northern_countries <- c("Norway", "Sweden", "Denmark", "Finland", "Iceland")
+data_northern <- data_combined %>%
+  filter(country %in% northern_countries)
+
+model_northern_kuznets <- lm(log_CO2_emissions ~ log_GDP_per_capita + I(log_GDP_per_capita^2), data = data_northern)
+summary(model_northern_kuznets)
+tab_model(model_northern_kuznets)
+
+data_northern <- data_northern %>%
+  arrange(log_GDP_per_capita) %>%
+  mutate(predicted_CO2 = predict(model_northern_kuznets, newdata = data_northern))
+
+plot_kuznets(data_northern, "Environmental Kuznets Curve for Northern Countries")
+```
+
+Ettersom at det til nå ikke har vært noen bevis for den U-formete kurven, så tester jeg ut hvordan forholdet ser ut for rikere land. Jeg filtrerer derfor datasettet til å kun se på de nordiske landene (Norge, Sverige, Finland, Island og Danmark), kjører en regresjonsanalyse med log_co2_emissions som den avhengige variabelen, både lineær og kvadrert BNP som uavhengige variabler. Så bruker jeg predict() til å beregne verdiene, og legges til i datasettet for visualiseringen. Plottet viser de observerte CO2 utslippene, en trendlinje, og modellens predikasjoner.
+
+Plottet viser nå en antydning til en U-formet sammenheng. Trendlinjen indikerer at CO2 utslippene først synker litt ved en økende BNP før den stiger svakt igjen ved de høyeste BNP verdiene. Plottet kan tolkes som en mulig motsatt Kuznets-kurve, men med en svak sammenheng.
+
+### Sammenhengen for median (BNP) land
+
+```{r}
+# Finn median BNP per capita og identifiser midt-på-treet-land
+median_bnp <- median(data_combined$log_GDP_per_capita, na.rm = TRUE)
+range_bnp <- 0.1  # Definer en buffer rundt medianen 
+mid_tier_countries <- data_combined %>%
+  filter(log_GDP_per_capita > (median_bnp - range_bnp) &
+           log_GDP_per_capita < (median_bnp + range_bnp)) %>%
+  pull(country) %>%
+  unique()
+
+# Filtrer for midt-på-treet-land
+data_mid_tier <- data_combined %>%
+  filter(country %in% mid_tier_countries)
+
+# Regresjonsmodellen for midt-på-treet-land
+model_mid_tier_kuznets <- lm(log_CO2_emissions ~ log_GDP_per_capita + I(log_GDP_per_capita^2), data = data_mid_tier)
+summary(model_mid_tier_kuznets)
+tab_model(model_mid_tier_kuznets)
+
+# Legger til predikerte verdier for visualisering
+data_mid_tier <- data_mid_tier %>%
+  arrange(log_GDP_per_capita) %>%
+  mutate(predicted_CO2 = predict(model_mid_tier_kuznets, newdata = data_mid_tier))
+
+# Plott for Kuznets-kurve  midt-på-treet-land
+plot_kuznets(data_mid_tier, "Environmental Kuznets Curve for Mid-Tier Countries")
+
+```
+
+Koden er ganske lik for de nordiske landene, men koden har filtreret ut landene med median BNP. Plottet viser en lineær graf, så det er minimalt med antydning til en omvendt U-kurve. Men, regresjonsanalysen viser variabler som ikke er statistisk signifikante, så plottet og modellen forkastes. Men det er verdt å poengtere at det ikke er tegn til den omvendt U-kurven.
+
+### Sammenheng for lavinntektsland (BNP)
+
+```{r}
+low_income_countries <- c("India", "Zimbabwe", "Pakistan", "Tajikistan", "Belarus")
+
+# Filtrer datasettet for de valgte landene
+data_low_income <- data_combined %>%
+  filter(country %in% low_income_countries) %>%
+  drop_na(log_GDP_per_capita, log_CO2_emissions)  # Fjern rader med manglende verdier
+
+# Kontroller antall observasjoner per land
+data_low_income %>% group_by(country) %>% summarise(count = n())
+
+# Regresjonsmodell med lineær og kvadrert term
+model_low_income_kuznets <- lm(log_CO2_emissions ~ log_GDP_per_capita + I(log_GDP_per_capita^2), data = data_low_income)
+
+# Sjekker resultatene fra modellen
+summary(model_low_income_kuznets)
+tab_model(model_low_income_kuznets)
+
+# Legger til predikerte verdier
+data_low_income <- data_low_income %>%
+  arrange(log_GDP_per_capita) %>%
+  mutate(predicted_CO2 = predict(model_low_income_kuznets, newdata = data_low_income))
+
+# Plott Kuznets-kurve for de valgte lavinntektslandene
+plot_kuznets(data_low_income, "Environmental Kuznets Curve for Selected Low-Income Countries")
+```
+
+Ved første øyekast så kan valg av land virke litt tilfeldig. Jeg ville undersøke "motsatsen" til Norden, og har prøvd meg fram med de landene med lavest BNP i de tilgjengelige dataen og endte opp med India, Zimbabwe, Pakistan, Tajikistan og Belarus (som alle har en lav BNP sammenlignet med Norden). Jeg har brukt samme kode som for de Nordiske landene bare at jeg har byttet om landene. Det er brukt samme kode i analysen. Nå viser analysen en tydelig U-formet sammenheng som tas opp igjen i diskusjondelen.
+
+### Test av regresjonsanalysen
+
+På bakgrunn av resultatene er det interesant å kjøre en mer omfattende testing av modellen. Derfor implimiteres både kvadrering og interaksjonsledd i modellen.
+
+```{r}
+model_kuznets_with_interactions <- lm(log_CO2_emissions ~ 
+                                        log_GDP_per_capita + I(log_GDP_per_capita^2) + 
+                                        log_population * log_energy_use + 
+                                        log_trade * log_fossil_fuel + 
+                                        log_government_exp + 
+                                        log_RnD_exp + year, 
+                                      data = data_combined)
+
+# Oppsummering av modellen
+summary(model_kuznets_with_interactions)
+tab_model(model_kuznets_with_interactions)
+
+# Visualisering av Kuznets-kurven
+library(ggplot2)
+
+ggplot(data_combined, aes(x = log_GDP_per_capita, y = log_CO2_emissions)) +
+  geom_point(alpha = 0.6, color = "steelblue", size = 2) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), color = "darkred", fill = "lightcoral", alpha = 0.2) +
+  labs(
+    x = "Log BNP per capita",
+    y = "Log CO2-utslipp",
+    title = "Kuznets-kurve etter inkludering av kvadratiske ledd og interaksjoner"
+  ) +
+  theme_classic()
+
+```
+
+For å avslutte analysen så testes den omvendte U-form sammenhengen mellom BNP og utslipp. Nå har det blitt inkludert en lineær og en kvadrert versjon av BNP i modellen. Kvadreringen blir implementert i Log_GDP_per_capitia\^2 som muliggjør modellering av kurv-lineære sammenhenger. Regresjonen estimerer utslipp av Co2 som en funksjon av BNP, der det lineære leddet representerer veksten av utslipp med økende BNP, mens det kvadratiske leddet tester om veksten er avtakende ved høyrere nivåer av BNP. Resultatene fra summary() funksjonen viser en positiv koeffisient for BNP og en negativ koeffisient for det kvadrerte leddet som støtter antagelsen om en omvendt U-kurve fra Kuznets hypotesen.
+
+Dette blir visualisert gjennom funksjonen predict(), som genererer de predikerte verdiene for Co2 utslipp, som blir lagt til i datasettet som en ny variabel (predicted_co2). Da er det mulig å sammenligne de faktiske verdiene for utslipp med modellens predikasjoner. Visualiseringen gir en antydning til en svak mulig omvendt U-form, der utslipp øker i de tidligere fasene ved økonomisk vekst, før det etter hvert flates ut og antyder en mulig reduksjon ved svært høye BNP-nivåer. Estimatet for log_GDP_per_capita er positivt (0,45), mens og_GDP_per_capita\^2 er negativt (-0,02), som antyder at utslippene øker med BNP i starten før det etter et punkt begynner å avta, noe som teorien altså predikerer. Men, plottet basert på modellen er ikke like omvendt U-kurvet som en skulle forvente.
+
+## Diskusjon
+
+Oppgaven har testet hvorvidt det finnes bevis for at teorien om en omvendt U-kurve (EKC) gjelder for også når tema er sammenhengen mellom økonomiskvekst og utslipp. Først vil jeg påpeke at oppgaven ikke har grunnlag til å trekke noen generelle konklusjoner annet enn det som gjelder for akkurat dette datasettet. Samt, at det mulig ikke er nok observasjoner, og at det generelt har blitt testet på relativt små data. Men, en separate analyse at lavinntekstland gir støtte til hypotesen om at EKC kurven viser sammenhengen mellom x og y. Dene analysen gir atså et annet resultat enn analysen av de nordiske landene hvor jeg fant en slak U-kurvet relasjon.
+
+Forskjellen kan skyldes mange ting, men jeg vil trekke frem at de nordiske landene ligger langt fremme når det gjelder 'grønne investeringer' i infrastruktur og produksjonsteknologi. Høyere BNP muliggjør disse investeringen. Vi kan anta at disse investingerne fortsetter og dermed vil utslippene minke, men bare til et punkt hvor produksjonen øker så mye at investeringene ikke lenger fører til reduserte utslipp. I lland med lav BNP vil det ikke være rom for prioritere grønne investinger fremfor investeringer knyttet til økt produksjonen. Økt produksjon vil derfor føre til økte utslipp og plottet for lavinntektsland stemmer dermed med EKC teorien.
+
+Medianlandene ble også analysert, her er resulatene ikke signifikante, men det kan likevel være interessant å se hvordan de bidrar til den totale trenden som går fra en U-kurve for land med høy BNP, til lineær sammenheng for land med median-BNP land, og til den omvendte U-kurven hos land med lav BNP. Funnene tyder altså på at EKC er mest egnet til studere den sistnevnte gruppen.
+
+Analysen har kjørt ulike regresjonsanalyser for å teste validiteten til teorien. Det har blitt kjørt lineære, kvadrerte og implementering av interaksjonsledd. Regresjonene som inkluderer lineær og kvadrerte ledd for BNP per capita, indikerer en svak omvendt U-formet relasjon. Dette støtter validiteten til EKC teorien, men sammenhengen er mindre markant en forventet. Dette antyder at BNP alene ikke er tilstrekkelig for å forklare utslippsvariasjoner.
+
+Den negative koeffisienten for det kvadrerte leddet av BNP per capita bekrefter en kurvelineær sammenheng. Sammenhengen er veldig svak, noe som også tyder på at det er andre faktorer som spiller inn når man ser EKC kurven. Energiforbruk per capita tyder på å være en sterk faktor ved energiforbruk noe som sier seg selv. Ettersom at økonomisk aktivitet og energibruk er sterkt tilknyttet miljøpåvirkning. Mengden fossilt brensel i energimiksen har og en betydelig positiv effekt, som viser fordelene ved å gå over til renere energikilder som fører til reduksjon i utslippsnivået. Interaksjonen mellom handel og fossilt brensel tyder på en negativ effekt, som kan indikere at økt handel fremmer overføringen av grønnere energitiltak.
+
+Det som er interessant med analysen er at EKC teorien blir testet i en globalisert økonomi. Ved filtreringen av land med høy BNP (eksempelvis de nordiske) ville de vært interessant å kunne ta hensyn til den globale arbeidsdelingen hvor land som de nordiske i stor grad har outsourcet mye av industrien som står for de største utslippene eller som i Norge hvor CO2-utslippene fra olje og gass i hovedsak registerer i konsumentlandene. Dagens måling av utslipp kan dermed diskuteres. Samtidig må man selvsagt ta hensyn til ulik miljøpoltikk og at land med høy BNP i støtte grad kan pålegge konsumneter og næringsliv miljøskatter, karbonavgifter etc. som vil påvirke sjansen for å havne i en U-kurve,
+
+Selv om modellene har veldig høye R\^2 verdier (98%), så gir ikke det grunnlag til å dra konklusjoner. De høye verdiene kan delvis skyldes databehandlingen som er utført, log-transformering og sammenkobling av variabler. Dette kan gi en kunstig stram modelltilpasning. Det er å verdt å nevne at en tidsperiode på kun 20 år, er en relativt liten tidsperiode når en ser på mønstre og trender ved økonomisk vekst. Derfor vil en bredere analyse som ser på en større tidsperiode, teknologisk endring og miljøpolitikk kunne gi en sterkere begrunnet analyse. Med tanke på at i analysen har det oppstått multikolinaritet, dette svekker validiteten til analysen og fører til at de gitte variablene blir ugyldige.
+
+## Konklusjon
+
+Denne analysen har undersøkt sammenhengen mellom BNP per capita og Co2 utslipp. Utgangspunktet var Kuznets-kurven (EKC) og hypotesen om et U-formet forhold mellom BNP og økonomisk vekst og undersøker relevansen av å bruke denne når tema er BNP og CO2-utslipp. Oppgaven har brukt data fra WDI og OWD data, og BNP har blitt satt opp mot Co2 utslipp for å teste teorien om at forholdet mellom økonomisk vekst og Co2 utslipp er formet som en omvendt U-kurve. Dette har blitt gjort ved å log-transformere variablene (for å redusere skjevheter og forenkle tolkningen av ikke-lineære sammenhenger).
+
+Dette har blitt testet ved å både modellere og visualisere sammenhengene. Sammenhengene har blitt visualisert ved å plotte BNP mot Co2 og det har vist seg å ha ulike sammenhenger etter hva slags observasjoner man ser på. Dette har blitt testet ved å modellere ulike regresjoner. Dette har gitt ulike resultater det og, visse variabler opplevde multikollinearitet, i regresjonene med implementering av interaksjonsledd og kvadrering var det veldig høy grad av multikollinearitet. Men, det er å forvente i slik modellering.
+
+Resultatene gir delvis støtte til teorien. For lavinntektslandene, så var det en tydelig omvendt U-formet kurve, men for den generelle befolkningen, Norden og medianlandene så var det ikke tegn denne kurven. Dette kan skyldes av at man ikke kan sammenligne land som er ulike hverandre, men dette gir og en antydning til at teorien stemmer. Norden fikk en motsatt bue sammenlignet med lavinntektslandene, men det er å forvente. Nordan har en helt annen infrastruktur og økonomi. Dermed er det ikke forventet at rike og fattige land vil få den samme typen utvikling ved økonomisk vekst.
+
+Et forventet funn fra analysen er at andre faktorer spiller en avgjørende rolle. Energiforbruk per capita hadde en sterk positiv effekt (koeffisient på 1,44, p \< 0,001), som understreker den sterke relasjonen mellom økonomisk aktivitet og høyere Co2 utslippene. Mengden fossilt brensel i energimiksen bidro og sterkt til høyere utslipp (koeffisient på 4,24, p \< 0,001), mens forskning og utvikling viste en svak negativ effekt (koeffisient på -0,07, p \< 0,019) som antyder at når den økonomiske veksten trer inn i utvikling så går utslippene ned. Interaksjonsleddet mellom handel og fossilt brensel hadde en negativ effekt (-0,8, p\<0,01) som antyder at internasjonal handel kan senke behovet av fossile brensler. Samlet sett kan man konkludere med at analysen gir en antydning til delvis støtte av Kuznets-kurven.
+
+## Kilder
+
+Delgado, F. J. (2023). *Green tax: Adjusting taxation for a new balance environment-activity-collection*. In *Reference Module in Social Sciences*. Elsevier. <https://doi.org/10.1016/B978-0-44-313776-1.00085-4>
+
+Satici, E. E., & Cakir, B. (2021). *Environmental Kuznets Curve & Effectiveness of International Policies: Evidence from Cross Country Carbon Emission Analysis*. arXiv. https://doi.org/10.48550/arXiv.2105.11756

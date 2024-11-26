@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Falk Aksel Falkum">
+<meta name="dcterms.date" content="2024-11-26">
+
+<title>Term Paper</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="DENNE QUARTO 22.11 D_files/libs/clipboard/clipboard.min.js"></script>
+<script src="DENNE QUARTO 22.11 D_files/libs/quarto-html/quarto.js"></script>
+<script src="DENNE QUARTO 22.11 D_files/libs/quarto-html/popper.min.js"></script>
+<script src="DENNE QUARTO 22.11 D_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="DENNE QUARTO 22.11 D_files/libs/quarto-html/anchor.min.js"></script>
+<link href="DENNE QUARTO 22.11 D_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="DENNE QUARTO 22.11 D_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="DENNE QUARTO 22.11 D_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="DENNE QUARTO 22.11 D_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="DENNE QUARTO 22.11 D_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="DENNE QUARTO 22.11 D_files/libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="DENNE QUARTO 22.11 D_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#innledning" id="toc-innledning" class="nav-link active" data-scroll-target="#innledning"><span class="header-section-number">1</span> Innledning</a></li>
+  <li><a href="#teori" id="toc-teori" class="nav-link" data-scroll-target="#teori"><span class="header-section-number">2</span> Teori</a></li>
+  <li><a href="#metode-og-gjennomgang-av-kode" id="toc-metode-og-gjennomgang-av-kode" class="nav-link" data-scroll-target="#metode-og-gjennomgang-av-kode"><span class="header-section-number">3</span> 3. Metode og gjennomgang av kode</a>
+  <ul class="collapse">
+  <li><a href="#laster-inn-nødvendige-pakker" id="toc-laster-inn-nødvendige-pakker" class="nav-link" data-scroll-target="#laster-inn-nødvendige-pakker"><span class="header-section-number">3.1</span> Laster inn nødvendige pakker</a></li>
+  <li><a href="#laster-ned-wdi-data-uten-co2" id="toc-laster-ned-wdi-data-uten-co2" class="nav-link" data-scroll-target="#laster-ned-wdi-data-uten-co2"><span class="header-section-number">3.2</span> Laster ned WDI-data (uten CO2)</a></li>
+  <li><a href="#variabeloversikt" id="toc-variabeloversikt" class="nav-link" data-scroll-target="#variabeloversikt"><span class="header-section-number">3.3</span> Variabeloversikt:</a></li>
+  <li><a href="#laster-ned-co2-data-fra-our-world-in-data" id="toc-laster-ned-co2-data-fra-our-world-in-data" class="nav-link" data-scroll-target="#laster-ned-co2-data-fra-our-world-in-data"><span class="header-section-number">3.4</span> Laster ned CO2-data fra Our World in Data</a></li>
+  <li><a href="#filtrer-og-velger-relevante-variabler-fra-co2-dataene" id="toc-filtrer-og-velger-relevante-variabler-fra-co2-dataene" class="nav-link" data-scroll-target="#filtrer-og-velger-relevante-variabler-fra-co2-dataene"><span class="header-section-number">3.5</span> Filtrer og velger relevante variabler fra CO2-dataene</a></li>
+  <li><a href="#log-transformering" id="toc-log-transformering" class="nav-link" data-scroll-target="#log-transformering"><span class="header-section-number">3.6</span> Log-transformering</a></li>
+  <li><a href="#tabell-med-statistikk-for-variabler" id="toc-tabell-med-statistikk-for-variabler" class="nav-link" data-scroll-target="#tabell-med-statistikk-for-variabler"><span class="header-section-number">3.7</span> Tabell med statistikk for variabler</a></li>
+  <li><a href="#tabell-med-deskriptiv-statistikk-for-de-log-transformerte-variablene" id="toc-tabell-med-deskriptiv-statistikk-for-de-log-transformerte-variablene" class="nav-link" data-scroll-target="#tabell-med-deskriptiv-statistikk-for-de-log-transformerte-variablene"><span class="header-section-number">3.8</span> Tabell med deskriptiv statistikk for de log-transformerte variablene</a></li>
+  <li><a href="#kuznets-plott" id="toc-kuznets-plott" class="nav-link" data-scroll-target="#kuznets-plott"><span class="header-section-number">3.9</span> Kuznets-plott</a></li>
+  <li><a href="#første-regresjon" id="toc-første-regresjon" class="nav-link" data-scroll-target="#første-regresjon"><span class="header-section-number">3.10</span> Første regresjon:</a></li>
+  <li><a href="#implimitering-av-variabler" id="toc-implimitering-av-variabler" class="nav-link" data-scroll-target="#implimitering-av-variabler"><span class="header-section-number">3.11</span> Implimitering av variabler</a></li>
+  <li><a href="#kvadratisk-modell" id="toc-kvadratisk-modell" class="nav-link" data-scroll-target="#kvadratisk-modell"><span class="header-section-number">3.12</span> Kvadratisk modell</a></li>
+  <li><a href="#nytt-kuznets-plott" id="toc-nytt-kuznets-plott" class="nav-link" data-scroll-target="#nytt-kuznets-plott"><span class="header-section-number">3.13</span> Nytt Kuznets plott</a></li>
+  <li><a href="#testing-av-nordiske-land" id="toc-testing-av-nordiske-land" class="nav-link" data-scroll-target="#testing-av-nordiske-land"><span class="header-section-number">3.14</span> Testing av Nordiske land</a></li>
+  <li><a href="#sammenhengen-for-median-bnp-land" id="toc-sammenhengen-for-median-bnp-land" class="nav-link" data-scroll-target="#sammenhengen-for-median-bnp-land"><span class="header-section-number">3.15</span> Sammenhengen for median (BNP) land</a></li>
+  <li><a href="#sammenheng-for-lavinntektsland-bnp" id="toc-sammenheng-for-lavinntektsland-bnp" class="nav-link" data-scroll-target="#sammenheng-for-lavinntektsland-bnp"><span class="header-section-number">3.16</span> Sammenheng for lavinntektsland (BNP)</a></li>
+  <li><a href="#test-av-regresjonsanalysen" id="toc-test-av-regresjonsanalysen" class="nav-link" data-scroll-target="#test-av-regresjonsanalysen"><span class="header-section-number">3.17</span> Test av regresjonsanalysen</a></li>
+  </ul></li>
+  <li><a href="#diskusjon" id="toc-diskusjon" class="nav-link" data-scroll-target="#diskusjon"><span class="header-section-number">4</span> Diskusjon</a></li>
+  <li><a href="#konklusjon" id="toc-konklusjon" class="nav-link" data-scroll-target="#konklusjon"><span class="header-section-number">5</span> Konklusjon</a></li>
+  <li><a href="#kilder" id="toc-kilder" class="nav-link" data-scroll-target="#kilder"><span class="header-section-number">6</span> Kilder</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Term Paper</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Falk Aksel Falkum </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 26, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="innledning" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="innledning"><span class="header-section-number">1</span> Innledning</h2>
+<p>Denne semesteroppgaven skal undersøke den miljømessige Kuznets-kurven (EKC) gjennom å analysere sammenhengen mellom økonomisk vekst og miljøpåvirkning, med særlig fokus på CO2 utslipp. Selve analysen foregår i R-Studio. Det blir brukt ulike metoder for å analysere valideten til analysen. Oppgaven tester ulike scenarioer for å se om sammenhengen mellom økonomisk vekst og miljøpåvirkning er U-formet eller ikke.</p>
+<p>Scriptet består av en databehandling, og variabel transformasjon, før analysen blir utført iform av visualisering (plotts) og ren modellering iform av ulike regresjonsanalyser. Land av ulike inntektsnivåer vil bli testet opp mot hverandre. Data ble i utgangspunktet hentet fra World Development Indicators (WDI) og variabelen (EN.ATM.CO2E.KT) for Co2 utslipp. I oktober i år kuttet WDI alle variabler for Co2 utslipp. Jeg har derfor inkludert Our World in Data og endret den planlagte koden, og dermed slått sammen de to datasettene til ett.</p>
+<p>Oppgaven har fem deler. Etter denne innledningen presenteres det teoretiske grunnlaget i avsnitt to. Etter det blir en gjennomgang av metode og kode i avsnitt tre. Så er det en diskusjonsdel i avsnitt 4 der resultatene av koden blir diskutert. I avsnitt fem i konsklusjonsdelen vil oppgaven konkludere resultatene og komme med en vurdering av hvorvidt det finnes bevis for at sammenhengen mellom økonomisk vekst og Co2 utslipp er omvendt U-kurvet eller ikke.</p>
+</section>
+<section id="teori" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="teori"><span class="header-section-number">2</span> Teori</h2>
+<p>Denne oppgaven skal undersøke om forholdet mellom økonomisk vekst og utslipp er omvendt U-formet, også kjent som Kuznets-kurven. Denne teorien ble introdusert av økonomen Simon Kuznets på 50-tallet. Han beskrev en hypotetisk sammenheng mellom økonomisk vekst og økonomisk ulikhet. Ifølge hypotesen følger ulikheten en omvendt U-formet kurve, der ulikhet øker i de tidlige stadiene før den etter hvert blir avtakende og dermed danner er U-formet kurve. Forklaringen til det omvendte forholdet blir forklart ved at ved økonomisk vekst, så må økonomien modnes, slik at det over tid blir et skifte i fokus, slik at trenden snur. Faktorer som industrialisering, urbanisering osv. er med på å øke invisteringene som over tid jevner ut ulikhetene (Delgado, 2023).</p>
+<p>I senere tid har teorien blitt tilpasset til miljøøkonomi, og blir brukt til å forklare sammenhengene mellom økonomisk vekst og miljøpåvirkning. I denne sammenhengen blir kurven omtalt som Enviromental Kuznets Curve (EKC). Denne sammenhengen er en hypotese om at forholdet mellom økonomisk vekst og miljøpåvirkning ser ut som en omvendt U-form. I denne sammenhengen vil hypotesen altså si at dersom man setter opp BNP per innbygger opp mot Co2 utslipp, så vil forholde bli seende ut som om opp ned U (ScienceDirect, n.d).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://doi.org/10.48550/arXiv.2105.11756"><img src="bilde.png" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Illustrasjon av Kuznets-kurven som viser en omvendt U-formet sammenheng mellom inntekt per capita og miljøforringelse."></a></p>
+</figure>
+</div>
+<figcaption>Illustrasjon av Kuznets-kurven</figcaption>
+</figure>
+</div>
+<p>Hypotesen bygger på en antakelse om at når det oppstår en økonomisk vekst så vil utviklingen til det gitte landet føre til en økning av utslipp ved en økende industrialisering. Ved økt produksjon vil utslippene øke til et punkt, hvor det etter hvert vil avta og danne U-formen. Begrunnelsen for dette er da at etter hvert som et land har fått tilstrekkelig med midler, så vil det kunne begynne å produsere på renere og mer miljøvennlige måter som dermed fører til avtakende utslipp. Samt, politiske ønsker, reguleringer, utslipp-skatter som og vil presse ned mengden utslipp (Satici og Cakir, 2021)</p>
+<p>Kuznets-kurven bruker noen av de samme forutsetninger som andre vekstmodeller som f.eks. Solow-modellen. Teknologisk utvikling, politikk, kapital og befolkning følger den økonomiske veksten. Denne oppgaven kommer ikke til å gå noe dypere inn på modellen annet enn å teste om det finnes bevis for kurven, og om teorien er gjeldene for denne oppgaven og datasettet som blir brukt. .</p>
+</section>
+<section id="metode-og-gjennomgang-av-kode" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="metode-og-gjennomgang-av-kode"><span class="header-section-number">3</span> 3. Metode og gjennomgang av kode</h2>
+<p>Metoden for denne oppgaven vil hovedsakelig være ulike regresjonsanalyser og visualisering av data. Dette går oppgaven nøyere gjennom under selve gjennomgangen av koden.</p>
+<section id="laster-inn-nødvendige-pakker" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="laster-inn-nødvendige-pakker"><span class="header-section-number">3.1</span> Laster inn nødvendige pakker</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(WDI)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.4.0      ✔ purrr   1.0.1 
+✔ tibble  3.1.8      ✔ dplyr   1.0.10
+✔ tidyr   1.2.1      ✔ stringr 1.5.0 
+✔ readr   2.1.3      ✔ forcats 0.5.2 
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(countrycode)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>corrplot 0.92 loaded</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vtable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: kableExtra
+
+Attaching package: 'kableExtra'
+
+The following object is masked from 'package:dplyr':
+
+    group_rows</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Learn more about sjPlot with 'browseVignettes("sjPlot")'.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjmisc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'sjmisc'
+
+The following object is masked from 'package:purrr':
+
+    is_empty
+
+The following object is masked from 'package:tidyr':
+
+    replace_na
+
+The following object is masked from 'package:tibble':
+
+    add_case</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjlabelled)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'sjlabelled'
+
+The following object is masked from 'package:forcats':
+
+    as_factor
+
+The following object is masked from 'package:dplyr':
+
+    as_label
+
+The following object is masked from 'package:ggplot2':
+
+    as_label</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jtools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'jtools'
+
+The following objects are masked from 'package:sjmisc':
+
+    %nin%, center</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData
+
+Attaching package: 'car'
+
+The following object is masked from 'package:dplyr':
+
+    recode
+
+The following object is masked from 'package:purrr':
+
+    some</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinytex)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tinytex' was built under R version 4.2.3</code></pre>
+</div>
+</div>
+<p>Til denne oppgaven har jeg brukt flere ulike pakker. Den første pakken er WDI (World Development Indicators), som fungerer som hoveddatakilde, og relevante variabler blir hentet herfra. Den neste pakken er tidyverse, som gir tilgang til sentrale funksjoner brukt i koden og inneholder pakker som dplyr og ggplot2, som blir brukt til datahåndtering, filtrering og visualisering av data. Pakken countrycode brukes for å konvertere ISO-landkoder til landsnavn, noe som forenkler sammenkoblingen mellom WDI og Our World in Data.</p>
+<p>Pakken corrplot brukes til å visualisere korrelasjonsmatriser, noe som gir innsikt i hvorvidt variablene forklarer hverandre – spesielt nyttig for å vurdere multikollinearitet. ggpubr forbedrer visualiseringene med ggplot2, og gjør det enklere å tilpasse plot som viser sammenhengen mellom BNP og CO₂-utslipp. stringr brukes til strenghåndtering, nyttig ved transformasjoner i datasettet. vtable brukes til å lage tabeller og gir mulighet til å vise plot i R’s Viewer-vindu.</p>
+<p>Pakkene sjPlot, sjmisc og sjlabelled brukes for visualisering av regresjonsanalysene etter egen preferanse, og jtools benyttes til databehandling i regresjonsanalysene. knitr brukes til å generere PDF- eller HTML-filer fra koden i RMarkdown. Til slutt brukes car for å få tilgang til Variance Inflation Factor (VIF()), som tester regresjonene for multikollinearitet. Oppsummert gjør disse pakkene det mulig å hente, rense, analysere og presentere de aktuelle dataene på en effektiv måte. Pakken tinytex blir brukt til å lage en pdf ut av filen.</p>
+</section>
+<section id="laster-ned-wdi-data-uten-co2" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="laster-ned-wdi-data-uten-co2"><span class="header-section-number">3.2</span> Laster ned WDI-data (uten CO2)</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data_wdi <span class="ot">&lt;-</span> <span class="fu">WDI</span>(<span class="at">indicator =</span> <span class="fu">c</span>(<span class="st">'NY.GDP.PCAP.CD'</span>, </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'SP.POP.TOTL'</span>, <span class="st">'EG.USE.PCAP.KG.OE'</span>, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'SP.URB.TOTL.IN.ZS'</span>, <span class="st">'EG.FEC.RNEW.ZS'</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'NV.IND.TOTL.ZS'</span>, <span class="st">'NV.AGR.TOTL.ZS'</span>, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'EG.EGY.PRIM.PP.KD'</span>, <span class="st">'NE.TRD.GNFS.ZS'</span>, </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'EG.USE.COMM.FO.ZS'</span>, <span class="st">'GC.XPN.TOTL.GD.ZS'</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                              <span class="st">'GB.XPD.RSDV.GD.ZS'</span>),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">country =</span> <span class="st">"all"</span>, <span class="at">start =</span> <span class="dv">2000</span>, <span class="at">end =</span> <span class="dv">2020</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="variabeloversikt" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="variabeloversikt"><span class="header-section-number">3.3</span> Variabeloversikt:</h3>
+<p><strong>NY.GDP.PCAP.CD</strong>: Bruttonasjonalprodukt (BNP) per innbygger, målt i løpende amerikanske dollar.</p>
+<p><strong>SP.POP.TOTL</strong>: Totalt folketall i landet.</p>
+<p><strong>EG.USE.PCAP.KG.OE</strong>: Energibruk per innbygger, målt i kilogram oljeekvivalenter.</p>
+<p><strong>SP.URB.TOTL.IN.ZS</strong>: Andelen av befolkningen som bor i urbane områder, målt i prosent.</p>
+<p><strong>EG.FEC.RNEW.ZS</strong>: Fornybar energi som andel av total energiforbruk, målt i prosent.</p>
+<p><strong>NV.IND.TOTL.ZS</strong>: Industriproduksjonens andel av BNP, målt i prosent.</p>
+<p><strong>NV.AGR.TOTL.ZS</strong>: Landbrukssektorens andel av BNP, målt i prosent.</p>
+<p><strong>EG.EGY.PRIM.PP.KD</strong>: Primær energiproduktivitet, målt i kjøpekraftsjusterte dollar per kg oljeekvivalent.</p>
+<p><strong>NE.TRD.GNFS.ZS</strong>: Handelsbalanse (eksport og import av varer og tjenester) som andel av BNP, målt i prosent.</p>
+<p><strong>EG.USE.COMM.FO.ZS</strong>: Andelen av energiforbruk fra fossilt brensel, målt i prosent.</p>
+<p><strong>GC.XPN.TOTL.GD.ZS</strong>: Offentlige utgifter som andel av BNP, målt i prosent.</p>
+<p><strong>GB.XPD.RSDV.GD.ZS</strong>: Utgifter til forskning og utvikling som andel av BNP, målt i prosent.</p>
+<p>Jeg valgte å filtrere bort data som ikke var i perioden 2000-2020, samt beholde alle land.</p>
+</section>
+<section id="laster-ned-co2-data-fra-our-world-in-data" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="laster-ned-co2-data-fra-our-world-in-data"><span class="header-section-number">3.4</span> Laster ned CO2-data fra Our World in Data</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/owid/co2-data/master/owid-co2-data.csv"</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>co2_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 50191 Columns: 79
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (2): country, iso_code
+dbl (77): year, population, gdp, cement_co2, cement_co2_per_capita, co2, co2...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>Etter at variabelene fra WDI er hentet ut, så henter jeg ut den siste variabelen. Jeg bruker read_csv funksjonen til å lese data filen, som er en csv fil hentet fra <em>Our World in Data</em> (OWID), en åpen kilde som publiserer ulike typer data for offentlig bruk.</p>
+</section>
+<section id="filtrer-og-velger-relevante-variabler-fra-co2-dataene" class="level3" data-number="3.5">
+<h3 data-number="3.5" class="anchored" data-anchor-id="filtrer-og-velger-relevante-variabler-fra-co2-dataene"><span class="header-section-number">3.5</span> Filtrer og velger relevante variabler fra CO2-dataene</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>co2_data <span class="ot">&lt;-</span> co2_data <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2000</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2020</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">country =</span> iso_code, year, co2) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="fu">countrycode</span>(country, <span class="st">"iso3c"</span>, <span class="st">"country.name"</span>))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Slår sammen WDI-data og CO2-data basert på land og år</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>data_combined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(data_wdi, co2_data, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"country"</span>, <span class="st">"year"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>I koden hentes variabelen co2 fra datasettet hentet fra Our World in Data sin åpne kilde for karbondioksidutslipp. Dataen inneholder en rekke ulike variabler og informasjon, men jeg henter ut kun Co2 variabelen, men jeg inkluderer også her tidsperioden 2000-2020. I tilegg beholdes landkode country som representerer landets navn. Ved bruk av countrycode-funksjonen så endres det fra en ISO3-kode (en måtte å navngi på) til landets navn, for bedre lesbarhet. Variabelen Co2 som blir hentet ut, viser hvert land for hvert år, hvor mange tonn målt i millioner som blir sluppet ut hvert år. I den andre kodedelen, så blir begge datasettene slått sammen til et ved hjelp av left_join funksjonen og det blir sortert etter år og land.</p>
+</section>
+<section id="log-transformering" class="level3" data-number="3.6">
+<h3 data-number="3.6" class="anchored" data-anchor-id="log-transformering"><span class="header-section-number">3.6</span> Log-transformering</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>data_combined <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_CO2_emissions =</span> <span class="fu">log</span>(co2),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_GDP_per_capita =</span> <span class="fu">log</span>(NY.GDP.PCAP.CD),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_population =</span> <span class="fu">log</span>(SP.POP.TOTL),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_energy_use =</span> <span class="fu">log</span>(EG.USE.PCAP.KG.OE),</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_industry =</span> <span class="fu">log</span>(NV.IND.TOTL.ZS <span class="sc">+</span> <span class="dv">1</span>),</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_agriculture =</span> <span class="fu">log</span>(NV.AGR.TOTL.ZS <span class="sc">+</span> <span class="dv">1</span>),</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_energy_intensity =</span> <span class="fu">log</span>(EG.EGY.PRIM.PP.KD),</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_trade =</span> <span class="fu">log</span>(NE.TRD.GNFS.ZS),</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_fossil_fuel =</span> <span class="fu">log</span>(EG.USE.COMM.FO.ZS <span class="sc">+</span> <span class="dv">1</span>),</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_government_exp =</span> <span class="fu">log</span>(GC.XPN.TOTL.GD.ZS),</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_RnD_exp =</span> <span class="fu">log</span>(GB.XPD.RSDV.GD.ZS <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(log_CO2_emissions, log_GDP_per_capita, log_population, log_energy_use, </span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>          SP.URB.TOTL.IN.ZS, EG.FEC.RNEW.ZS, log_industry, log_agriculture, </span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>          log_energy_intensity, log_trade, log_fossil_fuel, log_government_exp, log_RnD_exp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>I denne kodedelen har jeg utført en log-transformasjon på variablene, på det nye datasettet som nå heter data_combinded. Dette har blitt utført for å normalisere fordelingen og håndtere skjevheter, særlig for variabler med store variasjoner. De nye variablene opprettes ved å ta logaritmen av eksisterende variabler som, co2-utslipp eller BNP per innbygger. For variabler som inneholder nullverdier (NA’s) legges det til en før log endringen for å unngå feil. Til slutt fjerner drop_na funksjonene de radene med manglende verdier/data i de log endrede variablene.</p>
+</section>
+<section id="tabell-med-statistikk-for-variabler" class="level3" data-number="3.7">
+<h3 data-number="3.7" class="anchored" data-anchor-id="tabell-med-statistikk-for-variabler"><span class="header-section-number">3.7</span> Tabell med statistikk for variabler</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>TABLE_clean <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(log_CO2_emissions, log_GDP_per_capita, log_population, log_energy_use, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>         log_industry, log_agriculture, log_energy_intensity, log_trade, </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>         log_fossil_fuel, log_government_exp, log_RnD_exp) <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">vtable</span>(TABLE_clean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<caption>TABLE_clean</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Name</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Class</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">log_CO2_emissions</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: -0.965 to 8.721</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">log_GDP_per_capita</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: 5.128 to 11.725</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">log_population</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: 11.325 to 20.991</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">log_energy_use</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: 5.578 to 9.808</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">log_industry</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: 2.395 to 4.328</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">log_agriculture</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: 0.033 to 3.743</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">log_energy_intensity</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: 0.425 to 2.759</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">log_trade</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: 2.973 to 6.081</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">log_fossil_fuel</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: 0 to 4.615</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">log_government_exp</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: 1.279 to 4.59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">log_RnD_exp</td>
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">Num: 0.005 to 1.668</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>I denne kodedelen starter jeg med å endre navnet på dataframen fra data_combined til TABLE_clean, dette gjør jeg for å holde en best mulig oversikt over hvilke data man jobber med nedover i koden. Så velger jeg ut alle log variablene, og lager en tabell av vtable() for å kunne se at alle variablene forholder seg numeriske, og få et perspektiv på variasjonen de ulike variablene har.</p>
+</section>
+<section id="tabell-med-deskriptiv-statistikk-for-de-log-transformerte-variablene" class="level3" data-number="3.8">
+<h3 data-number="3.8" class="anchored" data-anchor-id="tabell-med-deskriptiv-statistikk-for-de-log-transformerte-variablene"><span class="header-section-number">3.8</span> Tabell med deskriptiv statistikk for de log-transformerte variablene</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>descriptive_stats <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(log_CO2_emissions, log_GDP_per_capita, log_population, log_energy_use, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>         log_industry, log_agriculture, log_energy_intensity, log_trade, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>         log_fossil_fuel, log_government_exp, log_RnD_exp) <span class="sc">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_all</span>(<span class="fu">list</span>(</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Min =</span> <span class="sc">~</span> <span class="fu">min</span>(. , <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Max =</span> <span class="sc">~</span> <span class="fu">max</span>(. , <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean =</span> <span class="sc">~</span> <span class="fu">mean</span>(. , <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD =</span> <span class="sc">~</span> <span class="fu">sd</span>(. , <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(descriptive_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  log_CO2_emissions_Min log_GDP_per_capita_Min log_population_Min
+1            -0.9649559               5.127758           11.32488
+  log_energy_use_Min log_industry_Min log_agriculture_Min
+1           5.577771         2.395426          0.03273117
+  log_energy_intensity_Min log_trade_Min log_fossil_fuel_Min
+1                0.4252677      2.973466                   0
+  log_government_exp_Min log_RnD_exp_Min log_CO2_emissions_Max
+1               1.279016     0.005425257              8.721306
+  log_GDP_per_capita_Max log_population_Max log_energy_use_Max log_industry_Max
+1               11.72544           20.99119           9.807975         4.328261
+  log_agriculture_Max log_energy_intensity_Max log_trade_Max
+1            3.743356                 2.758743      6.080681
+  log_fossil_fuel_Max log_government_exp_Max log_RnD_exp_Max
+1            4.615089               4.589931        1.667703
+  log_CO2_emissions_Mean log_GDP_per_capita_Mean log_population_Mean
+1               4.130729                9.438626            16.24761
+  log_energy_use_Mean log_industry_Mean log_agriculture_Mean
+1            7.824142          3.283317              1.52029
+  log_energy_intensity_Mean log_trade_Mean log_fossil_fuel_Mean
+1                  1.496829       4.441509             4.248135
+  log_government_exp_Mean log_RnD_exp_Mean log_CO2_emissions_SD
+1                 3.16519        0.7109969             1.777529
+  log_GDP_per_capita_SD log_population_SD log_energy_use_SD log_industry_SD
+1              1.295941          1.597888         0.7828185       0.2643164
+  log_agriculture_SD log_energy_intensity_SD log_trade_SD log_fossil_fuel_SD
+1          0.7567792               0.4064767    0.5339731          0.4421828
+  log_government_exp_SD log_RnD_exp_SD
+1             0.3916324      0.4287609</code></pre>
+</div>
+</div>
+<p>Videre ønsker jeg å finne ut mer om variablene, så jeg lager en ny tabell som lager et sammendrag av variablene og visualiserer: minimums verdi, maksimumsverdi, standard avvik og gjennomsnittsverdi.</p>
+</section>
+<section id="kuznets-plott" class="level3" data-number="3.9">
+<h3 data-number="3.9" class="anchored" data-anchor-id="kuznets-plott"><span class="header-section-number">3.9</span> Kuznets-plott</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_combined, <span class="fu">aes</span>(<span class="at">x =</span> log_GDP_per_capita, <span class="at">y =</span> log_CO2_emissions)) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span>   </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>), <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">fill =</span> <span class="st">"lightcoral"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span>  </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="dv">1</span>), <span class="at">color =</span> <span class="st">"gray60"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span>  </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Log BNP per innbygger"</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Log CO2-utslipp"</span>,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Sammenheng mellom BNP per innbygger og CO2-utslipp"</span>,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Analyse av Kuznets Curve"</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">color =</span> <span class="st">"gray50"</span>),</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DENNE-QUARTO-22.11-D_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Videre ønsker jeg å undersøke om forholdet mellom BNP og Co2 er U-formet som Kuznets teorien sier. Jeg bruker ggplot fra tidyversepakken til å visualisere plottet. Jeg setter Log Co2-utslipp ved y-aksen, og Log BNP per innbygger på x-aksen. De lyseblå punktene illustrerer hvert sitt land, ved bruk av geom_point. Den røde linjen i plottet illustrerer trenden i plottet. Her er alle land inkludert og man kan tydelig se at det er fravær av den U-formete trenden. Men det er en tydelig stigende trend. Altså når BNP øker, så øker og utslipp.</p>
+</section>
+<section id="første-regresjon" class="level3" data-number="3.10">
+<h3 data-number="3.10" class="anchored" data-anchor-id="første-regresjon"><span class="header-section-number">3.10</span> Første regresjon:</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>model1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_CO2_emissions <span class="sc">~</span> log_GDP_per_capita<span class="sc">+</span>log_population, <span class="at">data =</span> data_combined)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">&nbsp;</td>
+<td colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">log CO 2 emissions</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Predictors</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Estimates</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">p</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-17.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-18.00&nbsp;–&nbsp;-16.89</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">GDP per capita(current<br>
+US$)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.55</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.52&nbsp;–&nbsp;0.58</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Population,total</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.01</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.98&nbsp;–&nbsp;1.03</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">845</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.882 / 0.882</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>log_GDP_per_capita     log_population 
+          1.019198           1.019198 </code></pre>
+</div>
+</div>
+<p>Ettersom at det ikke var tegn til en U-formet trend, så kjører jeg en regresjonsanalyse for å teste data. Jeg setter opp log av Co2 som den avhengige variabelen, og bruker en standard lineær regresjon (lm) til å sjekke. Så bruker jeg tab_model(model) for å få en god visualisering av modellen, samt sjekker den for multikolinaritet ved bruk av vif() funksjonen. Alle variablene er godt innenfor med tanke på multikolinaritet, og alle variabler er veldig statistisk signifikante. Co2 har et estimat på 0,55 som støtter teorien om økningen av utslipp ved økonomisk vekst (BNP per capita) som har estimat 1.01. Men, det er ingen tegn til at det går ned igjen, som nok skyldes en for simpel modell.</p>
+</section>
+<section id="implimitering-av-variabler" class="level3" data-number="3.11">
+<h3 data-number="3.11" class="anchored" data-anchor-id="implimitering-av-variabler"><span class="header-section-number">3.11</span> Implimitering av variabler</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_CO2_emissions <span class="sc">~</span> log_GDP_per_capita <span class="sc">+</span> log_population <span class="sc">+</span> log_energy_use <span class="sc">+</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>              log_industry <span class="sc">+</span> log_agriculture <span class="sc">+</span> log_energy_intensity <span class="sc">+</span> log_trade <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>              log_fossil_fuel <span class="sc">+</span> log_government_exp <span class="sc">+</span> log_RnD_exp, <span class="at">data =</span> data_combined)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">&nbsp;</td>
+<td colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">log CO 2 emissions</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Predictors</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Estimates</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">p</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-23.01</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-23.75&nbsp;–&nbsp;-22.27</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">GDP per capita(current<br>
+US$)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.16&nbsp;–&nbsp;-0.04</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>0.002</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Population,total</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.98&nbsp;–&nbsp;1.01</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Energy use(kg of oil<br>
+equivalent per capita)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.09&nbsp;–&nbsp;1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Industry(including<br>
+construction),value<br>
+added(%of GDP)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.04</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.03&nbsp;–&nbsp;0.12</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.241</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Agriculture,forestry,and<br>
+fishing,value added(%of<br>
+GDP)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.05</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.11&nbsp;–&nbsp;0.01</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.085</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Energy intensity level of<br>
+primary energy(MJ/$2017<br>
+PPP GDP)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.16</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.27&nbsp;–&nbsp;-0.04</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>0.007</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Trade(%of GDP)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.09</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.13&nbsp;–&nbsp;-0.04</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Fossil fuel energy<br>
+consumption(%of total)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.62</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.57&nbsp;–&nbsp;0.66</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Expense(%of GDP)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.19</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.14&nbsp;–&nbsp;0.25</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Research and development<br>
+expenditure(%of GDP)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.14</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.21&nbsp;–&nbsp;-0.07</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">845</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.980 / 0.980</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  log_GDP_per_capita       log_population       log_energy_use 
+           21.243520             2.920054            18.979952 
+        log_industry      log_agriculture log_energy_intensity 
+            1.308576             6.482154             7.554148 
+           log_trade      log_fossil_fuel   log_government_exp 
+            2.245090             1.574068             1.562347 
+         log_RnD_exp 
+            3.165647 </code></pre>
+</div>
+</div>
+<p>Jeg gjør det samme som i modellen ovenfor, bare at jeg når har inkludert flere variabler for å få en mer omfattende model. Alle variabler utenom industri, landbruk og energiforbruk forholder seg statistisk signifikante. Jeg får veldig høy R^2, som vil sa at denne regresjonen kan forklare for ca. 98 % av variansen i dataene, noe som kan være kunstig høyt. Dette kan skyldes at dataene er filtrert og sammenslått, noe som kan gi en tettere modelltilpasning enn det som ville vært realistisk med ubehandlede data.</p>
+<p>Av de signifikante variablene ser vi at både BNP per innbygger og handel har negative koeffisienter, noe som antyder en omvendt sammenheng med CO₂-utslipp. På den andre siden bidrar både totalt energiforbruk per capita og andelen fossilt brensel positivt til CO₂-utslippene. Resultatene viser også at folketall og offentlige utgifter per BNP er sterke positive prediktorer for CO₂-utslipp, mens utgifter til forskning og utvikling har en liten negativ effekt.</p>
+</section>
+<section id="kvadratisk-modell" class="level3" data-number="3.12">
+<h3 data-number="3.12" class="anchored" data-anchor-id="kvadratisk-modell"><span class="header-section-number">3.12</span> Kvadratisk modell</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>model_kuznets <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_CO2_emissions <span class="sc">~</span> log_GDP_per_capita <span class="sc">+</span> <span class="fu">I</span>(log_GDP_per_capita<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> data_combined)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(model_kuznets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">&nbsp;</td>
+<td colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">log CO 2 emissions</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Predictors</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Estimates</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">p</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.81</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-5.69&nbsp;–&nbsp;4.07</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.745</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">GDP per capita(current<br>
+US$)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.69</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.41&nbsp;–&nbsp;1.78</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.219</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">I(log_GDP_per_capita^2)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.02</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.08&nbsp;–&nbsp;0.04</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.583</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">845</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.077 / 0.075</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(model_kuznets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     log_GDP_per_capita I(log_GDP_per_capita^2) 
+               151.1978                151.1978 </code></pre>
+</div>
+</div>
+<p>Ettersom at Kuznets-kurven gir en forventning om en omvendt U-formet kurve så er det interessant å teste ut de ikke lineære sammenhengene. Derfor kjører jeg en regresjonsanalyse med implementering av en kvadrert versjon av BNP variabelen. Ved å inkludere log_gdp_percapita sammen med log_gdp_per_capita^2 i modellen kan jeg fange opp en potensiell kurvelineær effekt, som kunne indikert at CO₂-utslippene først øker med BNP før de eventuelt reduseres etter et visst punkt.</p>
+<p>Resultatet av denne modellen viser at ingen av variablene er statistisk signifikante, noe som antyder at det ikke er noen tydelig kurvelineær sammenheng i denne modellen. R²-verdien er også lav, som betyr at modellen forklarer svært lite av variasjonen i CO₂-utslippene. Dette indikerer at Kuznets-kurven kanskje ikke er et egnet rammeverk for å beskrive sammenhengen mellom økonomisk utvikling og CO₂-utslipp i dette datasettet, og at andre faktorer kan spille en større rolle. Sett bort ifra signifikans, så har interaksjonsleddet til BNP et negativt estimat som kan antyde at teorien stemmer.</p>
+</section>
+<section id="nytt-kuznets-plott" class="level3" data-number="3.13">
+<h3 data-number="3.13" class="anchored" data-anchor-id="nytt-kuznets-plott"><span class="header-section-number">3.13</span> Nytt Kuznets plott</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plot_kuznets <span class="ot">&lt;-</span> <span class="cf">function</span>(data, title) {</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x =</span> log_GDP_per_capita, <span class="at">y =</span> log_CO2_emissions)) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>), <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">fill =</span> <span class="st">"lightcoral"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> predicted_CO2), <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Log BNP per capita"</span>,</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Log CO2-utslipp"</span>,</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> title,</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Relationship between economic development and CO2 emissions"</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Legg til predikerte verdier</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>data_combined <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(log_GDP_per_capita) <span class="sc">%&gt;%</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predicted_CO2 =</span> <span class="fu">predict</span>(model_kuznets, <span class="at">newdata =</span> data_combined))</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Generer Kuznets-plott</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_kuznets</span>(data_combined, <span class="st">"Environmental Kuznets Curve"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DENNE-QUARTO-22.11-D_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For å videre teste U-form sammenhengen har jeg brukt en linær og en kvadrert versjon av BNP. Kvadrateringen skal muligjøre modelleringen i en kurvlineær sammenheng. I koden så blir CO2 utslipp predikert ved funksjonen predict(), funksjonen blir og lagt til i datasettet som ny variabel: predicted_co2. Visualiseringen av resultatene til plotter de faktiske verdiene for CO₂-utslipp, har en trendlinje basert på dataene, og modellenes predikerte verdier. Denne metoden er valgt fordi Kuznets-kurven spesifikt handler om ikke-lineære relasjoner, og det er viktig å teste for disse ved hjelp av kvadrerte termer i modellen.</p>
+<p>Inkluderingen av kvadrert BNP er en standardmetode for å teste Kuznets-hypotesen. Hvis EKC-hypotesen hadde blitt bekreftet ville den kvadrerte termen indikert at utslippene topper seg ved et visst BNP-nivå og deretter avtar. I dette datasettet ser vi at sammenhengen i hovedsak er lineær. Dette kan skyldes begrensninger i datasettet eller at andre faktorer enn BNP, som politikk eller teknologi, spiller en større rolle i å forklare CO₂-utslipp.</p>
+</section>
+<section id="testing-av-nordiske-land" class="level3" data-number="3.14">
+<h3 data-number="3.14" class="anchored" data-anchor-id="testing-av-nordiske-land"><span class="header-section-number">3.14</span> Testing av Nordiske land</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>northern_countries <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Norway"</span>, <span class="st">"Sweden"</span>, <span class="st">"Denmark"</span>, <span class="st">"Finland"</span>, <span class="st">"Iceland"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>data_northern <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> northern_countries)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>model_northern_kuznets <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_CO2_emissions <span class="sc">~</span> log_GDP_per_capita <span class="sc">+</span> <span class="fu">I</span>(log_GDP_per_capita<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> data_northern)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_northern_kuznets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_CO2_emissions ~ log_GDP_per_capita + I(log_GDP_per_capita^2), 
+    data = data_northern)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.4234  0.1545  0.4350  0.5946  0.8719 
+
+Coefficients:
+                        Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)              78.9881    94.5550   0.835    0.406
+log_GDP_per_capita      -14.1410    17.4513  -0.810    0.420
+I(log_GDP_per_capita^2)   0.6610     0.8048   0.821    0.414
+
+Residual standard error: 1.065 on 71 degrees of freedom
+Multiple R-squared:  0.01292,   Adjusted R-squared:  -0.01489 
+F-statistic: 0.4645 on 2 and 71 DF,  p-value: 0.6303</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(model_northern_kuznets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">&nbsp;</td>
+<td colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">log CO 2 emissions</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Predictors</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Estimates</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">p</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">78.99</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-109.55&nbsp;–&nbsp;267.53</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.406</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">GDP per capita(current<br>
+US$)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-14.14</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-48.94&nbsp;–&nbsp;20.66</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.420</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">I(log_GDP_per_capita^2)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.66</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.94&nbsp;–&nbsp;2.27</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.414</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">74</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.013 / -0.015</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>data_northern <span class="ot">&lt;-</span> data_northern <span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(log_GDP_per_capita) <span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predicted_CO2 =</span> <span class="fu">predict</span>(model_northern_kuznets, <span class="at">newdata =</span> data_northern))</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_kuznets</span>(data_northern, <span class="st">"Environmental Kuznets Curve for Northern Countries"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DENNE-QUARTO-22.11-D_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ettersom at det til nå ikke har vært noen bevis for den U-formete kurven, så tester jeg ut hvordan forholdet ser ut for rikere land. Jeg filtrerer derfor datasettet til å kun se på de nordiske landene (Norge, Sverige, Finland, Island og Danmark), kjører en regresjonsanalyse med log_co2_emissions som den avhengige variabelen, både lineær og kvadrert BNP som uavhengige variabler. Så bruker jeg predict() til å beregne verdiene, og legges til i datasettet for visualiseringen. Plottet viser de observerte CO2 utslippene, en trendlinje, og modellens predikasjoner.</p>
+<p>Plottet viser nå en antydning til en U-formet sammenheng. Trendlinjen indikerer at CO2 utslippene først synker litt ved en økende BNP før den stiger svakt igjen ved de høyeste BNP verdiene. Plottet kan tolkes som en mulig motsatt Kuznets-kurve, men med en svak sammenheng.</p>
+</section>
+<section id="sammenhengen-for-median-bnp-land" class="level3" data-number="3.15">
+<h3 data-number="3.15" class="anchored" data-anchor-id="sammenhengen-for-median-bnp-land"><span class="header-section-number">3.15</span> Sammenhengen for median (BNP) land</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finn median BNP per capita og identifiser midt-på-treet-land</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>median_bnp <span class="ot">&lt;-</span> <span class="fu">median</span>(data_combined<span class="sc">$</span>log_GDP_per_capita, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>range_bnp <span class="ot">&lt;-</span> <span class="fl">0.1</span>  <span class="co"># Definer en buffer rundt medianen </span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>mid_tier_countries <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(log_GDP_per_capita <span class="sc">&gt;</span> (median_bnp <span class="sc">-</span> range_bnp) <span class="sc">&amp;</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>           log_GDP_per_capita <span class="sc">&lt;</span> (median_bnp <span class="sc">+</span> range_bnp)) <span class="sc">%&gt;%</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(country) <span class="sc">%&gt;%</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrer for midt-på-treet-land</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>data_mid_tier <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> mid_tier_countries)</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Regresjonsmodellen for midt-på-treet-land</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>model_mid_tier_kuznets <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_CO2_emissions <span class="sc">~</span> log_GDP_per_capita <span class="sc">+</span> <span class="fu">I</span>(log_GDP_per_capita<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> data_mid_tier)</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_mid_tier_kuznets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_CO2_emissions ~ log_GDP_per_capita + I(log_GDP_per_capita^2), 
+    data = data_mid_tier)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.6056 -0.9131 -0.2304  1.0597  2.5201 
+
+Coefficients:
+                        Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)              0.13186   22.38223   0.006    0.995
+log_GDP_per_capita       0.19830    4.79027   0.041    0.967
+I(log_GDP_per_capita^2)  0.01284    0.25571   0.050    0.960
+
+Residual standard error: 1.272 on 186 degrees of freedom
+Multiple R-squared:  0.03366,   Adjusted R-squared:  0.02327 
+F-statistic: 3.239 on 2 and 186 DF,  p-value: 0.04141</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(model_mid_tier_kuznets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">&nbsp;</td>
+<td colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">log CO 2 emissions</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Predictors</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Estimates</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">p</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.13</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-44.02&nbsp;–&nbsp;44.29</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.995</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">GDP per capita(current<br>
+US$)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.20</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-9.25&nbsp;–&nbsp;9.65</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.967</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">I(log_GDP_per_capita^2)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.01</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.49&nbsp;–&nbsp;0.52</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.960</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">189</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.034 / 0.023</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Legger til predikerte verdier for visualisering</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>data_mid_tier <span class="ot">&lt;-</span> data_mid_tier <span class="sc">%&gt;%</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(log_GDP_per_capita) <span class="sc">%&gt;%</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predicted_CO2 =</span> <span class="fu">predict</span>(model_mid_tier_kuznets, <span class="at">newdata =</span> data_mid_tier))</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plott for Kuznets-kurve  midt-på-treet-land</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_kuznets</span>(data_mid_tier, <span class="st">"Environmental Kuznets Curve for Mid-Tier Countries"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DENNE-QUARTO-22.11-D_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Koden er ganske lik for de nordiske landene, men koden har filtreret ut landene med median BNP. Plottet viser en lineær graf, så det er minimalt med antydning til en omvendt U-kurve. Men, regresjonsanalysen viser variabler som ikke er statistisk signifikante, så plottet og modellen forkastes. Men det er verdt å poengtere at det ikke er tegn til den omvendt U-kurven.</p>
+</section>
+<section id="sammenheng-for-lavinntektsland-bnp" class="level3" data-number="3.16">
+<h3 data-number="3.16" class="anchored" data-anchor-id="sammenheng-for-lavinntektsland-bnp"><span class="header-section-number">3.16</span> Sammenheng for lavinntektsland (BNP)</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>low_income_countries <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"India"</span>, <span class="st">"Zimbabwe"</span>, <span class="st">"Pakistan"</span>, <span class="st">"Tajikistan"</span>, <span class="st">"Belarus"</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtrer datasettet for de valgte landene</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>data_low_income <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> low_income_countries) <span class="sc">%&gt;%</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(log_GDP_per_capita, log_CO2_emissions)  <span class="co"># Fjern rader med manglende verdier</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Kontroller antall observasjoner per land</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>data_low_income <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(country) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  country    count
+  &lt;chr&gt;      &lt;int&gt;
+1 Belarus       15
+2 India         15
+3 Pakistan       1
+4 Tajikistan     3</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Regresjonsmodell med lineær og kvadrert term</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>model_low_income_kuznets <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_CO2_emissions <span class="sc">~</span> log_GDP_per_capita <span class="sc">+</span> <span class="fu">I</span>(log_GDP_per_capita<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> data_low_income)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Sjekker resultatene fra modellen</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_low_income_kuznets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_CO2_emissions ~ log_GDP_per_capita + I(log_GDP_per_capita^2), 
+    data = data_low_income)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.8725 -1.1906  0.7183  1.1211  1.9445 
+
+Coefficients:
+                        Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)             -53.5867    11.9737  -4.475 9.60e-05 ***
+log_GDP_per_capita       16.5708     3.3184   4.994 2.19e-05 ***
+I(log_GDP_per_capita^2)  -1.1428     0.2266  -5.043 1.90e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.572 on 31 degrees of freedom
+Multiple R-squared:  0.4527,    Adjusted R-squared:  0.4174 
+F-statistic: 12.82 on 2 and 31 DF,  p-value: 8.756e-05</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(model_low_income_kuznets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">&nbsp;</td>
+<td colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">log CO 2 emissions</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Predictors</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Estimates</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">p</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-53.59</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-78.01&nbsp;–&nbsp;-29.17</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">GDP per capita(current<br>
+US$)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">16.57</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">9.80&nbsp;–&nbsp;23.34</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">I(log_GDP_per_capita^2)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.14</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-1.60&nbsp;–&nbsp;-0.68</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.453 / 0.417</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Legger til predikerte verdier</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>data_low_income <span class="ot">&lt;-</span> data_low_income <span class="sc">%&gt;%</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(log_GDP_per_capita) <span class="sc">%&gt;%</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">predicted_CO2 =</span> <span class="fu">predict</span>(model_low_income_kuznets, <span class="at">newdata =</span> data_low_income))</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plott Kuznets-kurve for de valgte lavinntektslandene</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_kuznets</span>(data_low_income, <span class="st">"Environmental Kuznets Curve for Selected Low-Income Countries"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DENNE-QUARTO-22.11-D_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ved første øyekast så kan valg av land virke litt tilfeldig. Jeg ville undersøke “motsatsen” til Norden, og har prøvd meg fram med de landene med lavest BNP i de tilgjengelige dataen og endte opp med India, Zimbabwe, Pakistan, Tajikistan og Belarus (som alle har en lav BNP sammenlignet med Norden). Jeg har brukt samme kode som for de Nordiske landene bare at jeg har byttet om landene. Det er brukt samme kode i analysen. Nå viser analysen en tydelig U-formet sammenheng som tas opp igjen i diskusjondelen.</p>
+</section>
+<section id="test-av-regresjonsanalysen" class="level3" data-number="3.17">
+<h3 data-number="3.17" class="anchored" data-anchor-id="test-av-regresjonsanalysen"><span class="header-section-number">3.17</span> Test av regresjonsanalysen</h3>
+<p>På bakgrunn av resultatene er det interesant å kjøre en mer omfattende testing av modellen. Derfor implimiteres både kvadrering og interaksjonsledd i modellen.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>model_kuznets_with_interactions <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_CO2_emissions <span class="sc">~</span> </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                                        log_GDP_per_capita <span class="sc">+</span> <span class="fu">I</span>(log_GDP_per_capita<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                                        log_population <span class="sc">*</span> log_energy_use <span class="sc">+</span> </span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>                                        log_trade <span class="sc">*</span> log_fossil_fuel <span class="sc">+</span> </span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>                                        log_government_exp <span class="sc">+</span> </span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>                                        log_RnD_exp <span class="sc">+</span> year, </span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">data =</span> data_combined)</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Oppsummering av modellen</span></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_kuznets_with_interactions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log_CO2_emissions ~ log_GDP_per_capita + I(log_GDP_per_capita^2) + 
+    log_population * log_energy_use + log_trade * log_fossil_fuel + 
+    log_government_exp + log_RnD_exp + year, data = data_combined)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.61245 -0.10419 -0.00533  0.09357  1.13799 
+
+Coefficients:
+                                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                   -37.576395   3.474670 -10.814  &lt; 2e-16 ***
+log_GDP_per_capita              0.447195   0.073084   6.119 1.45e-09 ***
+I(log_GDP_per_capita^2)        -0.023786   0.004017  -5.921 4.66e-09 ***
+log_population                  1.207968   0.034361  35.155  &lt; 2e-16 ***
+log_energy_use                  1.430658   0.073647  19.426  &lt; 2e-16 ***
+log_trade                       3.465779   0.153705  22.548  &lt; 2e-16 ***
+log_fossil_fuel                 4.249180   0.158879  26.745  &lt; 2e-16 ***
+log_government_exp              0.103308   0.021545   4.795 1.93e-06 ***
+log_RnD_exp                    -0.071736   0.028078  -2.555   0.0108 *  
+year                           -0.003209   0.001695  -1.893   0.0587 .  
+log_population:log_energy_use  -0.026593   0.004482  -5.933 4.35e-09 ***
+log_trade:log_fossil_fuel      -0.798379   0.034794 -22.946  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1905 on 833 degrees of freedom
+Multiple R-squared:  0.9887,    Adjusted R-squared:  0.9885 
+F-statistic:  6602 on 11 and 833 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab_model</span>(model_kuznets_with_interactions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">&nbsp;</td>
+<td colspan="3" data-quarto-table-cell-role="th" style="text-align: center; border-top: double; font-style: normal; font-weight: bold; padding: 0.2cm;">log CO 2 emissions</td>
+</tr>
+<tr class="even">
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Predictors</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">Estimates</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">CI</td>
+<td style="text-align: center; border-bottom: 1px solid; font-style: italic; font-weight: normal;">p</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">(Intercept)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-37.58</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-44.40&nbsp;–&nbsp;-30.76</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">GDP per capita(current<br>
+US$)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.45</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.30&nbsp;–&nbsp;0.59</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">I(log_GDP_per_capita^2)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.02</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.03&nbsp;–&nbsp;-0.02</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Population,total</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.21</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.14&nbsp;–&nbsp;1.28</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Energy use(kg of oil<br>
+equivalent per capita)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.43</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">1.29&nbsp;–&nbsp;1.58</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Trade(%of GDP)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.47</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.16&nbsp;–&nbsp;3.77</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Fossil fuel energy<br>
+consumption(%of total)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">4.25</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">3.94&nbsp;–&nbsp;4.56</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Expense(%of GDP)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.10</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.06&nbsp;–&nbsp;0.15</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">Research and development<br>
+expenditure(%of GDP)</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.07</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.13&nbsp;–&nbsp;-0.02</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>0.011</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">year</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.01&nbsp;–&nbsp;0.00</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">0.059</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">log_population:log_energy_use</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.03</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.04&nbsp;–&nbsp;-0.02</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">log_trade:log_fossil_fuel</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.80</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;">-0.87&nbsp;–&nbsp;-0.73</td>
+<td style="text-align: left; padding: 0.2cm; vertical-align: top;"><strong>&lt;0.001</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">Observations</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm; border-top: 1px solid;">845</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">R<sup>2</sup> / R<sup>2</sup> adjusted</td>
+<td colspan="3" style="text-align: left; padding: 0.2cm; vertical-align: top; padding-top: 0.1cm; padding-bottom: 0.1cm;">0.989 / 0.989</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualisering av Kuznets-kurven</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_combined, <span class="fu">aes</span>(<span class="at">x =</span> log_GDP_per_capita, <span class="at">y =</span> log_CO2_emissions)) <span class="sc">+</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>), <span class="at">color =</span> <span class="st">"darkred"</span>, <span class="at">fill =</span> <span class="st">"lightcoral"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Log BNP per capita"</span>,</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Log CO2-utslipp"</span>,</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Kuznets-kurve etter inkludering av kvadratiske ledd og interaksjoner"</span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="DENNE-QUARTO-22.11-D_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For å avslutte analysen så testes den omvendte U-form sammenhengen mellom BNP og utslipp. Nå har det blitt inkludert en lineær og en kvadrert versjon av BNP i modellen. Kvadreringen blir implementert i Log_GDP_per_capitia^2 som muliggjør modellering av kurv-lineære sammenhenger. Regresjonen estimerer utslipp av Co2 som en funksjon av BNP, der det lineære leddet representerer veksten av utslipp med økende BNP, mens det kvadratiske leddet tester om veksten er avtakende ved høyrere nivåer av BNP. Resultatene fra summary() funksjonen viser en positiv koeffisient for BNP og en negativ koeffisient for det kvadrerte leddet som støtter antagelsen om en omvendt U-kurve fra Kuznets hypotesen.</p>
+<p>Dette blir visualisert gjennom funksjonen predict(), som genererer de predikerte verdiene for Co2 utslipp, som blir lagt til i datasettet som en ny variabel (predicted_co2). Da er det mulig å sammenligne de faktiske verdiene for utslipp med modellens predikasjoner. Visualiseringen gir en antydning til en svak mulig omvendt U-form, der utslipp øker i de tidligere fasene ved økonomisk vekst, før det etter hvert flates ut og antyder en mulig reduksjon ved svært høye BNP-nivåer. Estimatet for log_GDP_per_capita er positivt (0,45), mens og_GDP_per_capita^2 er negativt (-0,02), som antyder at utslippene øker med BNP i starten før det etter et punkt begynner å avta, noe som teorien altså predikerer. Men, plottet basert på modellen er ikke like omvendt U-kurvet som en skulle forvente.</p>
+</section>
+</section>
+<section id="diskusjon" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="diskusjon"><span class="header-section-number">4</span> Diskusjon</h2>
+<p>Oppgaven har testet hvorvidt det finnes bevis for at teorien om en omvendt U-kurve (EKC) gjelder for også når tema er sammenhengen mellom økonomiskvekst og utslipp. Først vil jeg påpeke at oppgaven ikke har grunnlag til å trekke noen generelle konklusjoner annet enn det som gjelder for akkurat dette datasettet. Samt, at det mulig ikke er nok observasjoner, og at det generelt har blitt testet på relativt små data. Men, en separate analyse at lavinntekstland gir støtte til hypotesen om at EKC kurven viser sammenhengen mellom x og y. Dene analysen gir atså et annet resultat enn analysen av de nordiske landene hvor jeg fant en slak U-kurvet relasjon.</p>
+<p>Forskjellen kan skyldes mange ting, men jeg vil trekke frem at de nordiske landene ligger langt fremme når det gjelder ‘grønne investeringer’ i infrastruktur og produksjonsteknologi. Høyere BNP muliggjør disse investeringen. Vi kan anta at disse investingerne fortsetter og dermed vil utslippene minke, men bare til et punkt hvor produksjonen øker så mye at investeringene ikke lenger fører til reduserte utslipp. I lland med lav BNP vil det ikke være rom for prioritere grønne investinger fremfor investeringer knyttet til økt produksjonen. Økt produksjon vil derfor føre til økte utslipp og plottet for lavinntektsland stemmer dermed med EKC teorien.</p>
+<p>Medianlandene ble også analysert, her er resulatene ikke signifikante, men det kan likevel være interessant å se hvordan de bidrar til den totale trenden som går fra en U-kurve for land med høy BNP, til lineær sammenheng for land med median-BNP land, og til den omvendte U-kurven hos land med lav BNP. Funnene tyder altså på at EKC er mest egnet til studere den sistnevnte gruppen.</p>
+<p>Analysen har kjørt ulike regresjonsanalyser for å teste validiteten til teorien. Det har blitt kjørt lineære, kvadrerte og implementering av interaksjonsledd. Regresjonene som inkluderer lineær og kvadrerte ledd for BNP per capita, indikerer en svak omvendt U-formet relasjon. Dette støtter validiteten til EKC teorien, men sammenhengen er mindre markant en forventet. Dette antyder at BNP alene ikke er tilstrekkelig for å forklare utslippsvariasjoner.</p>
+<p>Den negative koeffisienten for det kvadrerte leddet av BNP per capita bekrefter en kurvelineær sammenheng. Sammenhengen er veldig svak, noe som også tyder på at det er andre faktorer som spiller inn når man ser EKC kurven. Energiforbruk per capita tyder på å være en sterk faktor ved energiforbruk noe som sier seg selv. Ettersom at økonomisk aktivitet og energibruk er sterkt tilknyttet miljøpåvirkning. Mengden fossilt brensel i energimiksen har og en betydelig positiv effekt, som viser fordelene ved å gå over til renere energikilder som fører til reduksjon i utslippsnivået. Interaksjonen mellom handel og fossilt brensel tyder på en negativ effekt, som kan indikere at økt handel fremmer overføringen av grønnere energitiltak.</p>
+<p>Det som er interessant med analysen er at EKC teorien blir testet i en globalisert økonomi. Ved filtreringen av land med høy BNP (eksempelvis de nordiske) ville de vært interessant å kunne ta hensyn til den globale arbeidsdelingen hvor land som de nordiske i stor grad har outsourcet mye av industrien som står for de største utslippene eller som i Norge hvor CO2-utslippene fra olje og gass i hovedsak registerer i konsumentlandene. Dagens måling av utslipp kan dermed diskuteres. Samtidig må man selvsagt ta hensyn til ulik miljøpoltikk og at land med høy BNP i støtte grad kan pålegge konsumneter og næringsliv miljøskatter, karbonavgifter etc. som vil påvirke sjansen for å havne i en U-kurve,</p>
+<p>Selv om modellene har veldig høye R^2 verdier (98%), så gir ikke det grunnlag til å dra konklusjoner. De høye verdiene kan delvis skyldes databehandlingen som er utført, log-transformering og sammenkobling av variabler. Dette kan gi en kunstig stram modelltilpasning. Det er å verdt å nevne at en tidsperiode på kun 20 år, er en relativt liten tidsperiode når en ser på mønstre og trender ved økonomisk vekst. Derfor vil en bredere analyse som ser på en større tidsperiode, teknologisk endring og miljøpolitikk kunne gi en sterkere begrunnet analyse. Med tanke på at i analysen har det oppstått multikolinaritet, dette svekker validiteten til analysen og fører til at de gitte variablene blir ugyldige.</p>
+</section>
+<section id="konklusjon" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="konklusjon"><span class="header-section-number">5</span> Konklusjon</h2>
+<p>Denne analysen har undersøkt sammenhengen mellom BNP per capita og Co2 utslipp. Utgangspunktet var Kuznets-kurven (EKC) og hypotesen om et U-formet forhold mellom BNP og økonomisk vekst og undersøker relevansen av å bruke denne når tema er BNP og CO2-utslipp. Oppgaven har brukt data fra WDI og OWD data, og BNP har blitt satt opp mot Co2 utslipp for å teste teorien om at forholdet mellom økonomisk vekst og Co2 utslipp er formet som en omvendt U-kurve. Dette har blitt gjort ved å log-transformere variablene (for å redusere skjevheter og forenkle tolkningen av ikke-lineære sammenhenger).</p>
+<p>Dette har blitt testet ved å både modellere og visualisere sammenhengene. Sammenhengene har blitt visualisert ved å plotte BNP mot Co2 og det har vist seg å ha ulike sammenhenger etter hva slags observasjoner man ser på. Dette har blitt testet ved å modellere ulike regresjoner. Dette har gitt ulike resultater det og, visse variabler opplevde multikollinearitet, i regresjonene med implementering av interaksjonsledd og kvadrering var det veldig høy grad av multikollinearitet. Men, det er å forvente i slik modellering.</p>
+<p>Resultatene gir delvis støtte til teorien. For lavinntektslandene, så var det en tydelig omvendt U-formet kurve, men for den generelle befolkningen, Norden og medianlandene så var det ikke tegn denne kurven. Dette kan skyldes av at man ikke kan sammenligne land som er ulike hverandre, men dette gir og en antydning til at teorien stemmer. Norden fikk en motsatt bue sammenlignet med lavinntektslandene, men det er å forvente. Nordan har en helt annen infrastruktur og økonomi. Dermed er det ikke forventet at rike og fattige land vil få den samme typen utvikling ved økonomisk vekst.</p>
+<p>Et forventet funn fra analysen er at andre faktorer spiller en avgjørende rolle. Energiforbruk per capita hadde en sterk positiv effekt (koeffisient på 1,44, p &lt; 0,001), som understreker den sterke relasjonen mellom økonomisk aktivitet og høyere Co2 utslippene. Mengden fossilt brensel i energimiksen bidro og sterkt til høyere utslipp (koeffisient på 4,24, p &lt; 0,001), mens forskning og utvikling viste en svak negativ effekt (koeffisient på -0,07, p &lt; 0,019) som antyder at når den økonomiske veksten trer inn i utvikling så går utslippene ned. Interaksjonsleddet mellom handel og fossilt brensel hadde en negativ effekt (-0,8, p&lt;0,01) som antyder at internasjonal handel kan senke behovet av fossile brensler. Samlet sett kan man konkludere med at analysen gir en antydning til delvis støtte av Kuznets-kurven.</p>
+</section>
+<section id="kilder" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="kilder"><span class="header-section-number">6</span> Kilder</h2>
+<p>Delgado, F. J. (2023). <em>Green tax: Adjusting taxation for a new balance environment-activity-collection</em>. In <em>Reference Module in Social Sciences</em>. Elsevier. <a href="https://doi.org/10.1016/B978-0-44-313776-1.00085-4" class="uri">https://doi.org/10.1016/B978-0-44-313776-1.00085-4</a></p>
+<p>Satici, E. E., &amp; Cakir, B. (2021). <em>Environmental Kuznets Curve &amp; Effectiveness of International Policies: Evidence from Cross Country Carbon Emission Analysis</em>. arXiv. https://doi.org/10.48550/arXiv.2105.11756</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
